@@ -1,0 +1,14 @@
+inherit kf5
+
+NAME="plasma-desktop"
+VERSION=5.8.5
+RELEASE=1
+CATEGORY="KDE"
+SUMMARY="KDE Plasma control panels and utilities"
+DESCRIPTION="Control panels and utilities which complete the KDE Plasma desktop."
+
+PATCH_URI="
+	5.8.3-cmake-module.patch
+	5.8.5-dllexport.patch
+	5.8.3-wayland-optional.patch
+"

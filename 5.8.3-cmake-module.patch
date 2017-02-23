@@ -1,0 +1,22 @@
+--- origsrc/plasma-desktop-5.8.3/kcms/translations/CMakeLists.txt	2016-11-01 07:18:29.000000000 -0500
++++ src/plasma-desktop-5.8.3/kcms/translations/CMakeLists.txt	2016-11-28 11:39:50.760407100 -0600
+@@ -4,7 +4,7 @@ set(kcm_translations_PART_SRCS kcmtransl
+ 
+ ki18n_wrap_ui(kcm_translations_PART_SRCS kcmtranslationswidget.ui)
+ 
+-add_library(kcm_translations ${kcm_translations_PART_SRCS})
++add_library(kcm_translations MODULE ${kcm_translations_PART_SRCS})
+ 
+ target_link_libraries(kcm_translations
+     Qt5::Widgets
+--- origsrc/plasma-desktop-5.8.3/solid-device-automounter/kcm/CMakeLists.txt	2016-11-01 07:18:29.000000000 -0500
++++ src/plasma-desktop-5.8.3/solid-device-automounter/kcm/CMakeLists.txt	2016-11-28 11:38:26.130440800 -0600
+@@ -8,7 +8,7 @@ ki18n_wrap_ui(kcm_device_automounter_SRC
+ 
+ kconfig_add_kcfg_files(kcm_device_automounter_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../lib/AutomounterSettingsBase.kcfgc ${CMAKE_CURRENT_SOURCE_DIR}/LayoutSettings.kcfgc)
+ 
+-add_library(kcm_device_automounter ${kcm_device_automounter_SRCS} ${device_automounter_lib_SRCS})
++add_library(kcm_device_automounter MODULE ${kcm_device_automounter_SRCS} ${device_automounter_lib_SRCS})
+ 
+ target_link_libraries(kcm_device_automounter
+                       KF5::CoreAddons

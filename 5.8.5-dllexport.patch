@@ -1,0 +1,311 @@
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/dbus/FontInst.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/dbus/FontInst.h	2017-02-05 23:06:51.313944200 -0600
+@@ -41,7 +41,7 @@ class QTimer;
+ namespace KFI
+ {
+ 
+-class KFONTINST_EXPORT FontInst : public QObject
++class Q_DECL_EXPORT FontInst : public QObject
+ {
+     Q_OBJECT
+     Q_CLASSINFO("D-Bus Interface", "org.kde.fontinst")
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/CMakeLists.txt	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/CMakeLists.txt	2017-02-05 23:06:51.317943500 -0600
+@@ -1,3 +1,5 @@
++add_definitions(-DMAKE_KFONTINST_LIB)
++
+ set(kfontinst_LIB_SRCS Misc.cpp Fc.cpp Family.cpp Style.cpp File.cpp WritingSystems.cpp)
+ set(kfontinstui_LIB_SRCS FcEngine.cpp )
+ 
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/Family.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/Family.h	2017-02-05 23:06:51.320944000 -0600
+@@ -69,7 +69,7 @@ struct KFONTINST_EXPORT Families
+     FamilyCont items;
+ };
+ 
+-inline Q_DECL_EXPORT uint qHash(const Family &key)
++inline uint qHash(const Family &key)
+ {
+     return qHash(key.name());
+ }
+@@ -80,9 +80,9 @@ Q_DECLARE_METATYPE(KFI::Family)
+ Q_DECLARE_METATYPE(KFI::Families)
+ Q_DECLARE_METATYPE(QList<KFI::Families>)
+ 
+-Q_DECL_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::Family &obj);
+-Q_DECL_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::Family &obj);
+-Q_DECL_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::Families &obj);
+-Q_DECL_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::Families &obj);
++KFONTINST_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::Family &obj);
++KFONTINST_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::Family &obj);
++KFONTINST_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::Families &obj);
++KFONTINST_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::Families &obj);
+ 
+ #endif
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/Fc.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/Fc.h	2017-02-05 23:06:51.324943800 -0600
+@@ -84,42 +84,42 @@ namespace FC
+ #define KFI_FC_WIDTH_ULTRAEXPANDED      FC_WIDTH_ULTRAEXPANDED
+ #endif
+ 
+-    extern Q_DECL_EXPORT QUrl        encode(const QString &name, quint32 style, const QString &file=QString(), int index=0);
+-    extern Q_DECL_EXPORT Misc::TFont decode(const QUrl &url);
+-    extern Q_DECL_EXPORT QString     getFile(const QUrl &url);
+-    extern Q_DECL_EXPORT int         getIndex(const QUrl &url);
+-    extern Q_DECL_EXPORT int     weight(int w); // round w to nearest fc weight
+-    extern Q_DECL_EXPORT int     width(int w); // round w to nearest fc width
+-    extern Q_DECL_EXPORT int     slant(int s); // round s to nearest fc slant
+-    extern Q_DECL_EXPORT int     spacing(int s); // round s to nearest fc spacing
+-    extern Q_DECL_EXPORT int     strToWeight(const QString &str, QString &newStr);
+-    extern Q_DECL_EXPORT int     strToWidth(const QString &str, QString &newStr);
+-    extern Q_DECL_EXPORT int     strToSlant(const QString &str);
+-    extern Q_DECL_EXPORT quint32 createStyleVal(const QString &name);
+-    inline Q_DECL_EXPORT quint32 createStyleVal(int weight, int width, int slant)
++    extern KFONTINST_EXPORT QUrl        encode(const QString &name, quint32 style, const QString &file=QString(), int index=0);
++    extern KFONTINST_EXPORT Misc::TFont decode(const QUrl &url);
++    extern KFONTINST_EXPORT QString     getFile(const QUrl &url);
++    extern KFONTINST_EXPORT int         getIndex(const QUrl &url);
++    extern KFONTINST_EXPORT int     weight(int w); // round w to nearest fc weight
++    extern KFONTINST_EXPORT int     width(int w); // round w to nearest fc width
++    extern KFONTINST_EXPORT int     slant(int s); // round s to nearest fc slant
++    extern KFONTINST_EXPORT int     spacing(int s); // round s to nearest fc spacing
++    extern KFONTINST_EXPORT int     strToWeight(const QString &str, QString &newStr);
++    extern KFONTINST_EXPORT int     strToWidth(const QString &str, QString &newStr);
++    extern KFONTINST_EXPORT int     strToSlant(const QString &str);
++    extern KFONTINST_EXPORT quint32 createStyleVal(const QString &name);
++    inline quint32 createStyleVal(int weight, int width, int slant)
+                             { return ((weight&0xFF)<<16)+((width&0xFF)<<8)+(slant&0xFF); }
+-    extern Q_DECL_EXPORT QString styleValToStr(quint32 style);
+-    extern Q_DECL_EXPORT void    decomposeStyleVal(quint32 styleInfo, int &weight, int &width, int &slant);
+-    extern Q_DECL_EXPORT quint32 styleValFromStr(const QString &style);
++    extern KFONTINST_EXPORT QString styleValToStr(quint32 style);
++    extern KFONTINST_EXPORT void    decomposeStyleVal(quint32 styleInfo, int &weight, int &width, int &slant);
++    extern KFONTINST_EXPORT quint32 styleValFromStr(const QString &style);
+ 
+-    extern Q_DECL_EXPORT QString getFcString(FcPattern *pat, const char *val, int index=0);
++    extern KFONTINST_EXPORT QString getFcString(FcPattern *pat, const char *val, int index=0);
+ #ifdef KFI_USE_TRANSLATED_FAMILY_NAME
+-    extern Q_DECL_EXPORT QString getFcLangString(FcPattern *pat, const char *val, const char *valLang);
++    extern KFONTINST_EXPORT QString getFcLangString(FcPattern *pat, const char *val, const char *valLang);
+ #endif
+-    extern Q_DECL_EXPORT int     getFcInt(FcPattern *pat, const char *val, int index=0, int def=-1);
+-    extern Q_DECL_EXPORT QString getName(const QString &file);
+-    extern Q_DECL_EXPORT void    getDetails(FcPattern *pat, QString &family, quint32 &styleVal, int &index, QString &foundry);
+-    extern Q_DECL_EXPORT QString createName(FcPattern *pat);
+-    extern Q_DECL_EXPORT QString createName(const QString &family, quint32 styleInfo);
+-    extern Q_DECL_EXPORT QString createName(const QString &family, int weight, int width, int slant);
+-    inline Q_DECL_EXPORT QString createName(const Misc::TFont &font) { return createName(font.family, font.styleInfo); }
+-    extern Q_DECL_EXPORT QString createStyleName(quint32 styleInfo);
+-    extern Q_DECL_EXPORT QString createStyleName(int weight, int width, int slant);
+-    extern Q_DECL_EXPORT QString weightStr(int w, bool emptyNormal=true);
+-    extern Q_DECL_EXPORT QString widthStr(int w, bool emptyNormal=true);
+-    extern Q_DECL_EXPORT QString slantStr(int s, bool emptyNormal=true);
+-    extern Q_DECL_EXPORT QString spacingStr(int s);
+-    extern Q_DECL_EXPORT bool    bitmapsEnabled();
++    extern KFONTINST_EXPORT int     getFcInt(FcPattern *pat, const char *val, int index=0, int def=-1);
++    extern KFONTINST_EXPORT QString getName(const QString &file);
++    extern KFONTINST_EXPORT void    getDetails(FcPattern *pat, QString &family, quint32 &styleVal, int &index, QString &foundry);
++    extern KFONTINST_EXPORT QString createName(FcPattern *pat);
++    extern KFONTINST_EXPORT QString createName(const QString &family, quint32 styleInfo);
++    extern KFONTINST_EXPORT QString createName(const QString &family, int weight, int width, int slant);
++    inline QString createName(const Misc::TFont &font) { return createName(font.family, font.styleInfo); }
++    extern KFONTINST_EXPORT QString createStyleName(quint32 styleInfo);
++    extern KFONTINST_EXPORT QString createStyleName(int weight, int width, int slant);
++    extern KFONTINST_EXPORT QString weightStr(int w, bool emptyNormal=true);
++    extern KFONTINST_EXPORT QString widthStr(int w, bool emptyNormal=true);
++    extern KFONTINST_EXPORT QString slantStr(int s, bool emptyNormal=true);
++    extern KFONTINST_EXPORT QString spacingStr(int s);
++    extern KFONTINST_EXPORT bool    bitmapsEnabled();
+ }
+ }
+ 
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/FcEngine.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/FcEngine.h	2017-02-05 23:06:51.327944500 -0600
+@@ -45,7 +45,7 @@ typedef struct _XftColor XftColor;
+ namespace KFI
+ {
+ 
+-class Q_DECL_EXPORT CFcEngine
++class KFONTINST_EXPORT CFcEngine
+ {
+     public:
+ 
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/File.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/File.h	2017-02-05 23:06:51.330945000 -0600
+@@ -68,7 +68,7 @@ class KFONTINST_EXPORT File
+ 
+ typedef QSet<File> FileCont;
+ 
+-inline Q_DECL_EXPORT uint qHash(const File &key)
++inline uint qHash(const File &key)
+ {
+     return qHash(key.path()); // +qHash(key.index());
+ }
+@@ -76,7 +76,7 @@ inline Q_DECL_EXPORT uint qHash(const Fi
+ }
+ 
+ Q_DECLARE_METATYPE(KFI::File)
+-Q_DECL_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::File &obj);
+-Q_DECL_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::File &obj);
++KFONTINST_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::File &obj);
++KFONTINST_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::File &obj);
+ 
+ #endif
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/Misc.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/Misc.h	2017-02-05 23:43:42.599596700 -0600
+@@ -33,6 +33,7 @@
+ #include <QtCore/QFile>
+ #include <QUrl>
+ #include "KfiConstants.h"
++#include "kfontinst_export.h"
+ 
+ class QTextStream;
+ class QByteArray;
+@@ -58,63 +59,63 @@ namespace Misc
+         quint32 styleInfo;
+     };
+ 
+-    extern Q_DECL_EXPORT QString prettyUrl(const QUrl &url);
+-    inline Q_DECL_EXPORT bool    isHidden(const QString &f)    { return f.startsWith(QChar('.')); }
+-    inline Q_DECL_EXPORT bool    isHidden(const QUrl &url)     { return isHidden(url.fileName()); }
+-    extern Q_DECL_EXPORT bool    check(const QString &path, bool file, bool checkW=false);
+-    inline Q_DECL_EXPORT bool    fExists(const QString &p)     { return check(p, true, false); }
+-    inline Q_DECL_EXPORT bool    dExists(const QString &p)     { return check(p, false, false); }
+-    inline Q_DECL_EXPORT bool    fWritable(const QString &p)   { return check(p, true, true); }
+-    inline Q_DECL_EXPORT bool    dWritable(const QString &p)   { return check(p, false, true); }
+-    extern Q_DECL_EXPORT QString linkedTo(const QString &i);
+-    extern Q_DECL_EXPORT QString dirSyntax(const QString &d);  // Has trailing slash:  /file/path/
+-    extern Q_DECL_EXPORT QString fileSyntax(const QString &f);
+-    extern Q_DECL_EXPORT QString getDir(const QString &f);
+-    extern Q_DECL_EXPORT QString getFile(const QString &f);
+-    extern Q_DECL_EXPORT bool    createDir(const QString &dir);
+-    extern Q_DECL_EXPORT void    setFilePerms(const QByteArray &f);
+-    inline Q_DECL_EXPORT void    setFilePerms(const QString &f) { setFilePerms(QFile::encodeName(f)); }
+-    extern Q_DECL_EXPORT QString changeExt(const QString &f, const QString &newExt);
+-    extern Q_DECL_EXPORT bool    doCmd(const QString &cmd, const QString &p1=QString(),
++    extern KFONTINST_EXPORT QString prettyUrl(const QUrl &url);
++    inline bool    isHidden(const QString &f)    { return f.startsWith(QChar('.')); }
++    inline bool    isHidden(const QUrl &url)     { return isHidden(url.fileName()); }
++    extern KFONTINST_EXPORT bool    check(const QString &path, bool file, bool checkW=false);
++    inline bool    fExists(const QString &p)     { return check(p, true, false); }
++    inline bool    dExists(const QString &p)     { return check(p, false, false); }
++    inline bool    fWritable(const QString &p)   { return check(p, true, true); }
++    inline bool    dWritable(const QString &p)   { return check(p, false, true); }
++    extern KFONTINST_EXPORT QString linkedTo(const QString &i);
++    extern KFONTINST_EXPORT QString dirSyntax(const QString &d);  // Has trailing slash:  /file/path/
++    extern KFONTINST_EXPORT QString fileSyntax(const QString &f);
++    extern KFONTINST_EXPORT QString getDir(const QString &f);
++    extern KFONTINST_EXPORT QString getFile(const QString &f);
++    extern KFONTINST_EXPORT bool    createDir(const QString &dir);
++    extern KFONTINST_EXPORT void    setFilePerms(const QByteArray &f);
++    inline void    setFilePerms(const QString &f) { setFilePerms(QFile::encodeName(f)); }
++    extern KFONTINST_EXPORT QString changeExt(const QString &f, const QString &newExt);
++    extern KFONTINST_EXPORT bool    doCmd(const QString &cmd, const QString &p1=QString(),
+                                     const QString &p2=QString(), const QString &p3=QString());
+-    inline Q_DECL_EXPORT bool    root() { return 0==getuid(); }
+-    extern Q_DECL_EXPORT void    getAssociatedFiles(const QString &file, QStringList &list,
++    inline bool    root() { return 0==getuid(); }
++    extern KFONTINST_EXPORT void    getAssociatedFiles(const QString &file, QStringList &list,
+                                                  bool afmAndPfm=true);
+-    extern Q_DECL_EXPORT time_t  getTimeStamp(const QString &item);
+-    extern Q_DECL_EXPORT QString getFolder(const QString &defaultDir, const QString &root,
++    extern KFONTINST_EXPORT time_t  getTimeStamp(const QString &item);
++    extern KFONTINST_EXPORT QString getFolder(const QString &defaultDir, const QString &root,
+                                         QStringList &dirs);
+-    extern Q_DECL_EXPORT bool    checkExt(const QString &fname, const QString &ext);
+-    extern Q_DECL_EXPORT bool    isBitmap(const QString &str);
+-    extern Q_DECL_EXPORT bool    isMetrics(const QString &str);
+-    inline Q_DECL_EXPORT bool    isMetrics(const QUrl &url) { return isMetrics(url.fileName()); }
+-    inline Q_DECL_EXPORT bool    isPackage(const QString &file)
++    extern KFONTINST_EXPORT bool    checkExt(const QString &fname, const QString &ext);
++    extern KFONTINST_EXPORT bool    isBitmap(const QString &str);
++    extern KFONTINST_EXPORT bool    isMetrics(const QString &str);
++    inline bool    isMetrics(const QUrl &url) { return isMetrics(url.fileName()); }
++    inline bool    isPackage(const QString &file)
+                       { return file.indexOf(KFI_FONTS_PACKAGE)==(file.length()-KFI_FONTS_PACKAGE_LEN); }
+-    extern Q_DECL_EXPORT int     getIntQueryVal(const QUrl &url, const char *key, int defVal);
+-    extern Q_DECL_EXPORT bool    printable(const QString &mime);
+-    inline Q_DECL_EXPORT QString hide(const QString &f) { return '.'!=f[0] ? QChar('.')+f : f; }
+-    inline Q_DECL_EXPORT QString unhide(const QString &f) { return '.'==f[0] ? f.mid(1) : f; }
+-    extern Q_DECL_EXPORT uint    qHash(const TFont &key);
+-    extern Q_DECL_EXPORT QString encodeText(const QString &str, QTextStream &s);
+-    extern Q_DECL_EXPORT QString contractHome(QString path);
+-    extern Q_DECL_EXPORT QString expandHome(QString path);
+-    extern Q_DECL_EXPORT QMap<QString, QString> getFontFileMap(const QSet<QString> &files);
+-    extern Q_DECL_EXPORT QString modifyName(const QString &fname);
++    extern KFONTINST_EXPORT int     getIntQueryVal(const QUrl &url, const char *key, int defVal);
++    extern KFONTINST_EXPORT bool    printable(const QString &mime);
++    inline QString hide(const QString &f) { return '.'!=f[0] ? QChar('.')+f : f; }
++    inline QString unhide(const QString &f) { return '.'==f[0] ? f.mid(1) : f; }
++    extern KFONTINST_EXPORT uint    qHash(const TFont &key);
++    extern KFONTINST_EXPORT QString encodeText(const QString &str, QTextStream &s);
++    extern KFONTINST_EXPORT QString contractHome(QString path);
++    extern KFONTINST_EXPORT QString expandHome(QString path);
++    extern KFONTINST_EXPORT QMap<QString, QString> getFontFileMap(const QSet<QString> &files);
++    extern KFONTINST_EXPORT QString modifyName(const QString &fname);
+     inline QString getDestFolder(const QString &folder, const QString &file)
+     {
+         return folder+file[0].toLower()+'/';
+     }
+-    extern Q_DECL_EXPORT QString app(const QString &name, const char *path=0L);
++    extern KFONTINST_EXPORT QString app(const QString &name, const char *path=0L);
+ }
+ 
+ }
+ 
+-inline Q_DECL_EXPORT QDataStream & operator<<(QDataStream &ds, const KFI::Misc::TFont &font)
++inline QDataStream & operator<<(QDataStream &ds, const KFI::Misc::TFont &font)
+ {
+     ds << font.family << font.styleInfo;
+     return ds;
+ }
+ 
+-inline Q_DECL_EXPORT QDataStream & operator>>(QDataStream &ds, KFI::Misc::TFont &font)
++inline QDataStream & operator>>(QDataStream &ds, KFI::Misc::TFont &font)
+ {
+     ds >> font.family >> font.styleInfo;
+     return ds;
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/Style.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/Style.h	2017-02-05 23:06:51.337944600 -0600
+@@ -69,7 +69,7 @@ class KFONTINST_EXPORT Style
+ 
+ typedef QSet<Style> StyleCont;
+ 
+-inline Q_DECL_EXPORT uint qHash(const Style &key)
++inline uint qHash(const Style &key)
+ {
+     return key.value();
+ }
+@@ -77,7 +77,7 @@ inline Q_DECL_EXPORT uint qHash(const St
+ }
+ 
+ Q_DECLARE_METATYPE(KFI::Style)
+-Q_DECL_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::Style &obj);
+-Q_DECL_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::Style &obj);
++KFONTINST_EXPORT QDBusArgument & operator<<(QDBusArgument &argument, const KFI::Style &obj);
++KFONTINST_EXPORT const QDBusArgument & operator>>(const QDBusArgument &argument, KFI::Style &obj);
+ 
+ #endif
+--- origsrc/plasma-desktop-5.8.5/kcms/kfontinst/lib/kfontinst_export.h	2016-12-27 05:31:56.000000000 -0600
++++ src/plasma-desktop-5.8.5/kcms/kfontinst/lib/kfontinst_export.h	2017-02-05 23:06:51.340945300 -0600
+@@ -24,8 +24,6 @@
+ 
+ #include <QtGlobal>
+ 
+-#if defined _WIN32 || defined _WIN64
+-
+ #ifndef KFONTINST_EXPORT
+ # if defined(MAKE_KFONTINST_LIB)
+ #  define KFONTINST_EXPORT Q_DECL_EXPORT
+@@ -34,11 +32,4 @@
+ # endif
+ #endif
+ 
+-
+-#else /* UNIX */
+-
+-#define KFONTINST_EXPORT Q_DECL_EXPORT
+-
+-#endif
+-
+ #endif // KFONTINST_EXPORT_H
