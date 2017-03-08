@@ -12,3 +12,5 @@ PATCH_URI="
 	5.8.5-dllexport.patch
 	5.8.3-wayland-optional.patch
 "
+
+REQUIRES="iso-codes" # kcm_keyboard
